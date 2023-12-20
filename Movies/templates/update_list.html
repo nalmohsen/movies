@@ -1,0 +1,72 @@
+<!-- update_list.html -->
+{% extends 'index.html' %}
+
+{% block content %}
+  <div class="container">
+    <h2 class="my-4">Update List</h2>
+
+    <form method="post" action="{{ url_for('edit_list', list_id=list_to_edit.id) }}" class="needs-validation" novalidate>
+      <div class="mb-3">
+        <label for="list_name" class="form-label">List Name:</label>
+        <input type="text" name="list_name" class="form-control" value="{{ list_to_edit.name }}" required>
+        <div class="invalid-feedback">
+          Please provide a name for the list.
+        </div>
+      </div>
+
+      <h3>Movies in the List:</h3>
+
+      <div class="form-check" style="max-height: 200px; overflow-y: auto;">
+        {% for movie in list_to_edit.movies %}
+          <div class="mb-2">
+            <input type="checkbox" name="selected_movies" value="{{ movie.id }}" class="form-check-input" checked>
+            <label class="form-check-label">{{ movie.title }} - <a href="{{ url_for('remove_movie', list_id=list_to_edit.id, movie_id=movie.id) }}" class="text-danger">Remove</a></label>
+          </div>
+        {% endfor %}
+      </div>
+
+      <h3>Add Movies to the List:</h3>
+
+      <div class="mb-3">
+        <label for="search_movies" class="form-label">Search Movies:</label>
+        <div class="input-group">
+          <input type="text" name="search_movies" class="form-control" placeholder="Search for movies">
+          <button type="submit" class="btn btn-outline-secondary">Search</button>
+        </div>
+      </div>
+
+      <div class="form-check" style="max-height: 200px; overflow-y: auto;">
+        {% for movie in movies %}
+          {% if movie not in list_to_edit.movies %}
+            <div class="mb-2">
+              <input type="checkbox" name="selected_movies" value="{{ movie.id }}" class="form-check-input">
+              <label class="form-check-label">{{ movie.title }}</label>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <button type="submit" class="btn btn-primary mt-3">Update List</button>
+    </form>
+  </div>
+
+  <script>
+    // JavaScript to handle form validation using Bootstrap classes
+    (function () {
+      'use strict';
+
+      // Fetch the form to apply custom Bootstrap validation styles to
+      var form = document.querySelector('.needs-validation');
+
+      // Prevent submission if the form is invalid
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+
+        form.classList.add('was-validated');
+      }, false);
+    })();
+  </script>
+{% endblock %}

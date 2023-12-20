@@ -1,0 +1,70 @@
+<!-- shared_lists.html -->
+{% extends 'index.html' %}
+
+{% block content %}
+  <div class="container">
+    <h2 class="my-4">Shared Lists</h2>
+
+    {% if shared_lists %}
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">List Name</th>
+              <th scope="col">Shared By</th>
+              <th scope="col" class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for shared_list in shared_lists %}
+              <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ shared_list.list.name }}</td>
+                <td>{{ shared_list.shared_by_user.username }}</td>
+                <td class="text-center">
+                  <!-- Details Button -->
+                  <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#detailsModal{{ shared_list.id }}">Details</button>
+                </td>
+              </tr>
+
+              <!-- Details Modal -->
+              <div class="modal fade" id="detailsModal{{ shared_list.id }}" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="detailsModalLabel">Details for "{{ shared_list.list.name }}"</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <p><strong>Shared By:</strong> {{ shared_list.shared_by_user.username }}</p>
+                      <p><strong>Movies in the List:</strong></p>
+                      <ul>
+                        {% for movie in shared_list.list.movies %}
+                          <li>{{ movie.title }}</li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Details Modal -->
+
+              <!-- Move the script inside the loop -->
+              <script>
+                $(document).ready(function () {
+                  $('#detailsModal{{ shared_list.id }}').modal('handleUpdate');
+                });
+              </script>
+
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p>No shared lists available.</p>
+    {% endif %}
+  </div>
+{% endblock %}

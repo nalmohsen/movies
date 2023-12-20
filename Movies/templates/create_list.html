@@ -1,0 +1,63 @@
+<!-- create_list.html -->
+{% extends 'index.html' %}
+
+{% block content %}
+  <div class="container">
+    <h2>Create New List</h2>
+
+    <form method="post" action="{{ url_for('create_list') }}" class="needs-validation" novalidate>
+      <div class="mb-3">
+        <label for="list_name" class="form-label">List Name:</label>
+        <input type="text" name="list_name" class="form-control" required>
+        <div class="invalid-feedback">
+          Please provide a name for the list.
+        </div>
+      </div>
+
+      {% if search_term %}
+        <h3>Search Results for "{{ search_term }}":</h3>
+      {% endif %}
+
+      <div class="mb-3">
+        <label for="search_movies" class="form-label">Search Movies:</label>
+        <div class="input-group">
+          <input type="text" name="search_movies" class="form-control" placeholder="Search for movies" value="{{ search_term }}">
+          <button type="submit" class="btn btn-outline-secondary">Search</button>
+        </div>
+      </div>
+
+      <div class="form-check" style="max-height: 200px; overflow-y: auto;">
+        {% for movie in movies %}
+          <div class="mb-2">
+            <input type="checkbox" name="selected_movies" value="{{ movie.id }}" class="form-check-input">
+            <label class="form-check-label">{{ movie.title }}</label>
+          </div>
+        {% endfor %}
+      </div>
+
+      <button type="submit" class="btn btn-primary mt-3">Create List</button>
+    </form>
+  </div>
+
+  <script>
+    // JavaScript to handle form validation using Bootstrap classes
+    (function () {
+      'use strict';
+
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.querySelectorAll('.needs-validation');
+
+      // Loop over them and prevent submission
+      Array.from(forms).forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+
+          form.classList.add('was-validated');
+        }, false);
+      });
+    })();
+  </script>
+{% endblock %}

@@ -1,0 +1,35 @@
+/* static/main.css */
+.navbar-brand,
+.navbar-nav .nav-link,
+.dropdown-menu {
+    color: white !important; 
+}
+
+
+  
+  .carousel-caption {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+  }
+  
+  h1.bottom {
+    margin-top: 10px; /* Adjust the margin as needed */
+    color: white; /* Set your desired text color */
+    font-size: 1.5rem; /* Set your desired font size */
+}
+
+/* Optional: Add additional styling for the Logout button */
+.btn-logout {
+    margin-left: 10px; 
+    margin-right: 10px;
+    color: white; 
+    background-color: rgb(104, 156, 233);
+}
+
+.btn-logout:hover {
+  background-color: #c82333; 
+  color: white;
+  border-color: #bd2130;
+}
